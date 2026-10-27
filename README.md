@@ -2,7 +2,6 @@ Pokémon Ad Blocker
 
 A Chrome extension that replaces advertisements with animated Pokémon sprites. Instead of seeing ads, you get a random Pokémon doing an idle animation on a little starfield. Click it to swap for a different one, or right-click to reveal the ad underneath.
 
-Show Image
 
 Features
 Detects ads using a layered strategy: Google AdSense, GPT slots, ad network iframes, Taboola/Outbrain widgets, and IAB standard ad sizes
