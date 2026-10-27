@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Pokémon Ad Blocker",
+  "version": "4.0",
+  "description": "Replaces ads with animated Pokémon sprites. Click a Pokémon to swap it!",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

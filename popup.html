@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 230px;
+      background: #12121f;
+      color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+      padding: 14px 14px 10px;
+      border-bottom: 2px solid #e63946;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-sprite {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 6px rgba(255,215,0,0.6));
+      animation: bob 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-4px); }
+    }
+
+    .header-text h1 {
+      font-size: 10px;
+      color: #e63946;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .header-text .sub {
+      font-size: 8px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* Stats row */
+    .stats {
+      display: flex;
+      border-bottom: 1px solid #2a2a3e;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 10px 8px;
+      text-align: center;
+      border-right: 1px solid #2a2a3e;
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-size: 20px;
+      color: #ffd700;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 7px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+    }
+
+    /* Toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #2a2a3e;
+    }
+
+    .toggle-label {
+      font-size: 9px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .toggle input { display: none; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: #333;
+      border-radius: 9px;
+      transition: background 0.2s;
+    }
+
+    .toggle input:checked + .toggle-track { background: #e63946; }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      transition: left 0.2s;
+    }
+
+    .toggle input:checked ~ .toggle-thumb { left: 20px; }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #2a2a3e;
+    }
+
+    .btn {
+      flex: 1;
+      background: #1e1e32;
+      border: 1px solid #333;
+      border-radius: 4px;
+      color: #ccc;
+      font-family: inherit;
+      font-size: 8px;
+      padding: 6px 4px;
+      cursor: pointer;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn:hover { background: #2a2a44; color: #ffd700; }
+
+    .btn.primary {
+      background: #e63946;
+      color: white;
+      border-color: #e63946;
+    }
+
+    .btn.primary:hover { background: #c1121f; }
+
+    /* Tip */
+    .tip {
+      padding: 8px 14px 10px;
+      font-size: 7.5px;
+      color: #555;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .tip span { color: #ffd700; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img id="headerSprite" class="header-sprite" src="" alt="Pokémon">
+    <div class="header-text">
+      <h1>Pokémon<br>Ad Blocker</h1>
+      <div class="sub">Gotta block 'em all!</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num" id="countAds">—</div>
+      <div class="stat-label">Blocked</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="countSession">—</div>
+      <div class="stat-label">This Session</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="countTotal">—</div>
+      <div class="stat-label">All Time</div>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <span class="toggle-label">Extension enabled</span>
+    <label class="toggle">
+      <input type="checkbox" id="enableToggle" checked>
+      <div class="toggle-track"></div>
+      <div class="toggle-thumb"></div>
+    </label>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn primary" id="btnNew">New Pokémon</button>
+    <button class="btn" id="btnRescan">Rescan Page</button>
+  </div>
+
+  <div class="tip">
+    <span>Click</span> a Pokémon to swap it.<br>
+    <span>Right-click</span> to reveal the ad.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
